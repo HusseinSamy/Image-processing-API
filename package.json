@@ -1,0 +1,27 @@
+{
+  "devDependencies": {
+    "@types/jasmine": "^4.0.3",
+    "@types/node": "^18.7.3",
+    "@types/sharp": "^0.30.5",
+    "jasmine-spec-reporter": "^7.0.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "jasmine": "^4.3.0",
+    "sharp": "^0.30.7",
+    "supertest": "^6.2.4"
+  },
+  "name": "image-processing-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx tsc && npm jasmine",
+    "build": "npx tsc",
+    "watch": "nodemon index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
