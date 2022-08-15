@@ -11,7 +11,7 @@ const createThumb = async (image: Buffer, width: number, height: number, filenam
                 await fs.promises.writeFile(`C:/Users/Weshkl/Desktop/Image processing API/assets/thumbs/${filename}.jpg`, buffer);
                 res(buffer);
             }
-            catch(error){
+            catch{
                 rej(error);
             }
         });
@@ -24,24 +24,17 @@ images.get('/', async(req, res)=>{
     const resizedImagePath = `C:/Users/Weshkl/Desktop/Image processing API/assets/thumbs/${filename}.jpg`
     try {
         if (fs.existsSync(imagePath)) {
-            console.log('if statment');
             if (fs.existsSync(resizedImagePath)) {
-                console.log('second if statment');
                 res.sendFile(resizedImagePath);
             }
             else {
-                console.log('else statment');
                 const image:Buffer = await fs.promises.readFile(imagePath);
                 await createThumb(image, +width!, +height!, filename! as string, other)
                     .then().catch((err) => { res.send(err); throw err; });
-                console.log('after creating thumb');
                 res.sendFile(resizedImagePath);
-                console.log('after sending response to client');
             }
         }
-        else {
-            throw `This photo doesn't exist on our server`;
-        }
+        else throw `This photo doesn't exist on our server`;
     }
     catch (err) {
         res.send(err);
