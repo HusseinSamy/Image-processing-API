@@ -34,14 +34,15 @@ images.get('/', async (req, res) => {
     const resizedImagePath = `C:/Users/Weshkl/Desktop/Image processing API/assets/thumbs/${filename}.jpg`;
     try {
         if (fs.existsSync(imagePath)) {
-            if (fs.existsSync(resizedImagePath)) {
-                res.sendFile(resizedImagePath);
-            } else {
-                if (
-                    filename !== undefined &&
-                    width !== undefined &&
-                    height !== undefined
-                ) {
+            if (
+                filename !== undefined &&
+                width !== undefined &&
+                height !== undefined
+            ) {
+                if (fs.existsSync(resizedImagePath)) {
+                    res.status(200);
+                    res.sendFile(resizedImagePath);
+                } else {
                     const image: Buffer = await fs.promises.readFile(imagePath);
                     await createThumb(
                         image,
@@ -51,19 +52,27 @@ images.get('/', async (req, res) => {
                         other
                     )
                         .then(() => {
+                            res.status(200);
                             res.sendFile(resizedImagePath);
                         })
                         .catch((err) => {
                             res.send(err);
                             throw err;
                         });
-                } else {
-                    throw `Please use the right query paramaters.     filename=[fileName]  width=[photoWidth]  height=[photoHeight]`;
                 }
+            } else {
+                res.status(400);
+                throw new Error(
+                    `Please use the right query paramaters ----> filename=[fileName]&width=[photoWidth]&height=[photoHeight]`
+                );
             }
-        } else throw `This photo doesn't exist on our server`;
+        } else {
+            res.status(404);
+            throw new Error(`This photo doesn't exist on our server`);
+        }
     } catch (err) {
-        res.send(err);
+        res.send((err as Error).message);
+        return err;
     }
 });
 
