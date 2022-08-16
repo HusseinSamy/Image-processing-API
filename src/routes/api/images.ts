@@ -1,33 +1,9 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path'
-import sharp, { ResizeOptions } from 'sharp';
+import createThumb from '../../_utility/ImageProcessing';
 
 const images = express.Router();
-
-const createThumb = async (
-    image: Buffer,
-    width: number,
-    height: number,
-    filename: string,
-    other: ResizeOptions
-): Promise<Buffer> => {
-    return new Promise((res, rej) => {
-        sharp(image)
-            .resize(width, height, other)
-            .toBuffer(async (error, buffer) => {
-                try {
-                    await fs.promises.writeFile(
-                        `${path.resolve(`./`)}/assets/thumbs/${filename}.jpg`,
-                        buffer
-                    );
-                    res(buffer);
-                } catch {
-                    rej(error);
-                }
-            });
-    });
-};
 
 images.get('/', async (req, res) => {
     const { filename, width, height, ...other } = req.query;
