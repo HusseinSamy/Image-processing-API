@@ -15,8 +15,7 @@
 * height `number` -> The height of the processed photo.
 * (optional)
   * **fit** `string` -> how the image should be resized to fit both provided dimensions, can hold only one value of `fill`, `contain`, `cover`, `inside`, `outside`, default is `cover`.
-  * **position** `string` ->  position, gravity or strategy to use when `fit` is `cover` or `contain`.
-  * **kernel** -> `string` the kernel to use for image reduction, default `lanczos3`.
+  * **kernel** `string` -> the kernel to use for image reduction, default `lanczos3`.
   * **withoutEnlargement** `boolean` -> do not enlarge if the `width` or `height` are already less than the specified dimensions, equivalent to GraphicsMagick's `>` geometry option, default is `false`. 
   * **withoutReduction** `boolean` -> do not reduce if the `width` or `height` are already less than the specified dimensions, equivalent to GraphicsMagick's `>` geometry option, default is `false`.
   * **fastShrinkOnLoad** `boolean` -> take greater advantage of the JPEG and WebP shrink-on-load feature, which can lead to a slight moiré pattern on some images, default is true. 
