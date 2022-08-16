@@ -4,6 +4,8 @@
 * `npm run test`
 ## 3. Start nodemon server.
 * `npm run watch`
+## 4. Building project 
+* `npm run build`
 
 ## API endpoints: 
 * [host]/api/images
