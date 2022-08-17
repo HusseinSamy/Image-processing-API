@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path'
-import createThumb from '../../_utility/ImageProcessing';
+import createThumb from '../../_utilities/ImageProcessing';
 
 const images = express.Router();
 
