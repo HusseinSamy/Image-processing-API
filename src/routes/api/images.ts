@@ -1,14 +1,18 @@
 import express, { Request, Response } from 'express';
 import fs from 'fs';
-import path from 'path'
+import path from 'path';
 import createThumb from '../../_utilities/ImageProcessing';
 
 const images = express.Router();
 
-images.get('/', async (req: Request, res: Response) => {
+images.get('/', async (req: Request, res: Response): Promise<void> => {
     const { filename, width, height, ...other } = req.query;
     const imagePath = `${path.resolve(`./`)}/assets/full/${filename}.jpg`;
-    const resizedImagePath = `${path.resolve(`./`)}/assets/thumbs/${filename}_${width}_${height}.jpg`;
+    const resizedImagePath = `${path.resolve(
+        `./`
+    )}/assets/thumbs/${filename}_${width}_${height}_${Object.values(
+        other
+    )}.jpg`;
     try {
         if (fs.existsSync(imagePath)) {
             if (
@@ -48,7 +52,6 @@ images.get('/', async (req: Request, res: Response) => {
         }
     } catch (err) {
         res.send((err as Error).message);
-        return err;
     }
 });
 
