@@ -14,12 +14,16 @@ const createThumb = async (
             .resize(width, height, other)
             .toBuffer(async (error, buffer) => {
                 try {
+                    const obj = new Object(other);
+                    const options = Object.values(obj);
                     await fs.promises.writeFile(
-                        `${path.resolve(`./`)}/assets/thumbs/${filename}_${width}_${height}.jpg`,
+                        `${path.resolve(
+                            `./`
+                        )}/assets/thumbs/${filename}_${width}_${height}_${options}.jpg`,
                         buffer
                     );
                     res(buffer);
-                } catch (err){
+                } catch (err) {
                     rej(err);
                 }
             });
@@ -27,4 +31,3 @@ const createThumb = async (
 };
 
 export default createThumb;
-
