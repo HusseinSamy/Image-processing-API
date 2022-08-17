@@ -1,7 +1,7 @@
 import app from '../index';
 import supertest from 'supertest';
 import fs from 'fs';
-import path from 'path'
+import path from 'path';
 
 import createThumb from '../_utilities/ImageProcessing';
 
@@ -51,15 +51,31 @@ describe('API endpoint tests suite', () => {
         });
     });
     describe('Image processing tests', () => {
-        it ('expects to be resolved', async(done) => {
-            const image: Buffer = await fs.promises.readFile(`${path.resolve('./')}/assets/full/fjord.jpg`);
+        it('expects to be resolved', async (done) => {
+            const image: Buffer = await fs.promises.readFile(
+                `${path.resolve('./')}/assets/full/fjord.jpg`
+            );
             expectAsync(createThumb(image, 100, 100, 'fjord')).toBeResolved;
             done();
-        }) 
-        it ('expects to be rejected', async(done) => {
+        });
+        it('expects to be rejected with invalid input error message', async (done) => {
             let image: unknown;
-            expectAsync(createThumb(image as Buffer, 100, 100, 'fjords')).toBeRejectedWithError('Invalid input');
+            await expectAsync(
+                createThumb(image as Buffer, 100, 100, 'fjords')
+            ).toBeRejectedWithError('Invalid input');
             done();
-        }) 
-    })
+        });
+        it('expects to be rejected with negative number error', async (done) => {
+            const image: Buffer = await fs.promises.readFile(
+                `${path.resolve('./')}/assets/full/fjord.jpg`
+            );
+            const width = -1;
+            await expectAsync(
+                createThumb(image, width, 100, 'fjord')
+            ).toBeRejectedWithError(
+                'Expected positive integer for width but received -1 of type number'
+            );
+            done();
+        });
+    });
 });
