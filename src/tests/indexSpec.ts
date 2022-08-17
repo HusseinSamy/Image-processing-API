@@ -51,13 +51,15 @@ describe('API endpoint tests suite', () => {
         });
     });
     describe('Image processing tests', () => {
-        it ('expects to be resolved', async() => {
+        it ('expects to be resolved', async(done) => {
             const image: Buffer = await fs.promises.readFile(`${path.resolve('./')}/assets/full/fjord.jpg`);
             expectAsync(createThumb(image, 100, 100, 'fjord')).toBeResolved;
+            done();
         }) 
-        it ('expects to be rejected', async() => {
+        it ('expects to be rejected', async(done) => {
             let image: unknown;
-            expectAsync(createThumb(image as Buffer, 100, 100, 'fjords')).toBeRejected;
+            expectAsync(createThumb(image as Buffer, 100, 100, 'fjords')).toBeRejectedWithError('Invalid input');
+            done();
         }) 
     })
 });
