@@ -15,12 +15,12 @@ const createThumb = async (
             .toBuffer(async (error, buffer) => {
                 try {
                     await fs.promises.writeFile(
-                        `${path.resolve(`./`)}/assets/thumbs/${filename}.jpg`,
+                        `${path.resolve(`./`)}/assets/thumbs/${filename}_${width}_${height}.jpg`,
                         buffer
                     );
                     res(buffer);
-                } catch {
-                    rej(error);
+                } catch (err){
+                    rej(err);
                 }
             });
     });
