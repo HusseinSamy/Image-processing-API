@@ -7,7 +7,7 @@ const createThumb = async (
     width: number,
     height: number,
     filename: string,
-    other: ResizeOptions
+    other?: ResizeOptions
 ): Promise<Buffer> => {
     return new Promise((res, rej) => {
         sharp(image)
