@@ -1,5 +1,9 @@
 import app from '../index';
 import supertest from 'supertest';
+import fs from 'fs';
+import path from 'path'
+
+import createThumb from '../_utilities/ImageProcessing';
 
 const request = supertest(app);
 
@@ -46,4 +50,14 @@ describe('API endpoint tests suite', () => {
             ).toBeTrue();
         });
     });
+    describe('Image processing tests', () => {
+        it ('expects to be resolved', async() => {
+            const image: Buffer = await fs.promises.readFile(`${path.resolve('./')}/assets/full/fjord.jpg`);
+            expectAsync(createThumb(image, 100, 100, 'fjord')).toBeResolved;
+        }) 
+        it ('expects to be rejected', async() => {
+            let image: unknown;
+            expectAsync(createThumb(image as Buffer, 100, 100, 'fjords')).toBeRejected;
+        }) 
+    })
 });
